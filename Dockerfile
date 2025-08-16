@@ -1,2 +1,19 @@
-FROM registry.zeabur.com/e-6610b7bb4e5f07f892d252f0/s-68a084fa16b50444e1f5fd8b:d-68a084fb13a5c57a0c451f17
+FROM node:20-slim
+
+WORKDIR /code
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies (adding dotenv)
+RUN npm install express node-fetch cors dotenv
+
+# Bundle app source
+COPY . .
+
+# Default environment variables if not provided at runtime
 ENV PORT=7860
+ENV NODE_ENV=production
+
+# Start the application
+CMD ["node", "server.js"]
